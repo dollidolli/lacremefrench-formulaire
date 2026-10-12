@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Votre projet · La Crème French</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@300;400;500;700&family=Playfair+Display:ital,wght@1,400;1,600&display=swap" rel="stylesheet">
+<style>
+/* Formulaire conversationnel, aux codes de lacremefrench.com/contact (module Divi et_pb_contact_form_1) :
+   champs #d7fff7, réponses en Playfair Display italique 600, titres Anton, questions en Barlow léger. Une question à la fois. */
+:root{--menthe:#d7fff7;--menthe-vive:#6ff0c8;--gris:rgba(0,0,0,.27);--gris-texte:rgba(0,0,0,.55);--erreur:#cf2e2e}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#000;font-family:'Barlow',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.lcf{max-width:1080px;margin:0 auto;padding:48px 16px 80px}
+
+.lcf-titre{display:flex;align-items:center;gap:14px}
+.lcf-titre::before{content:"";flex:1;height:2px;background:#000}
+.lcf-titre h2{font-family:'Anton',sans-serif;font-weight:400;font-size:44px;line-height:1;margin:0}
+.lcf-titre .point{width:12px;height:12px;border-radius:50%;background:var(--menthe-vive);margin-top:14px}
+.lcf-sous{display:flex;align-items:flex-end;gap:10px;margin:6px 0 34px}
+.lcf-sous p{margin:0 0 0 auto;font-weight:300;font-size:38px;line-height:1.1;white-space:nowrap}
+.lcf-sous::after{content:"";flex:0 0 40%;height:2px;background:#000;margin-bottom:10px}
+
+/* Progression */
+.progression{height:3px;background:#eee;margin-bottom:44px;position:relative}
+.progression span{position:absolute;inset:0 auto 0 0;width:0;background:var(--menthe-vive);transition:width .45s ease}
+
+/* La scène : une question à la fois */
+.scene{position:relative;min-height:380px}
+.question{display:none}
+.question.active{display:block;animation:entre .45s ease both}
+.question.sort{display:block;animation:sort .25s ease both}
+@keyframes entre{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes sort{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-18px)}}
+
+.num{font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px;color:#000;display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.num::after{content:"→";font-family:'Barlow',sans-serif;color:var(--menthe-vive);font-weight:700}
+.question h3{font-weight:300;font-size:40px;line-height:1.15;margin:0 0 8px;max-width:860px}
+.question .precision{font-family:'Playfair Display',serif;font-style:italic;font-size:18px;color:var(--gris-texte);margin:0 0 26px}
+.question .precision:empty{display:none}
+.question h3+.reponses,.question h3+.champs{margin-top:26px}
+
+/* Réponses à cliquer */
+.reponses{display:flex;flex-wrap:wrap;gap:10px;max-width:980px}
+.reponses button{all:unset;cursor:pointer;background:var(--menthe);padding:14px 20px;font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:20px;color:rgba(0,0,0,.62);transition:background .15s,color .15s,transform .15s}
+.reponses button:hover{color:#000;transform:translateY(-2px)}
+.reponses button:focus-visible{outline:3px solid var(--menthe-vive);outline-offset:2px}
+.reponses button.choisi{background:#000;color:#fff}
+.reponses.grandes button{font-size:24px;padding:22px 28px}
+.reponses.grandes button small{display:block;font-family:'Barlow',sans-serif;font-style:normal;font-weight:400;font-size:15px;margin-top:6px;color:var(--gris-texte)}
+.reponses.grandes button.choisi small{color:rgba(255,255,255,.7)}
+
+/* Champs à taper */
+.champs{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:980px}
+.champs .plein{grid-column:1/-1}
+.champs input,.champs textarea{width:100%;border:0;border-radius:0;background:var(--menthe);padding:24px 20px;font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:24px;color:#000;-webkit-appearance:none}
+.champs textarea{min-height:170px;resize:vertical}
+.champs ::placeholder{color:var(--gris);opacity:1}
+.champs input:focus,.champs textarea:focus{outline:2px solid #000;outline-offset:-2px}
+.champs .erreur{outline:2px solid var(--erreur)!important;outline-offset:-2px}
+
+/* Actions */
+.actions{display:flex;align-items:center;gap:26px;margin-top:30px;flex-wrap:wrap}
+.ok{all:unset;cursor:pointer;background:#000;color:#fff;padding:14px 24px;font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:22px}
+.ok:hover{background:#222}
+.ok:focus-visible{outline:3px solid var(--menthe-vive);outline-offset:3px}
+.astuce{font-size:14px;color:var(--gris-texte)}
+.astuce kbd{font-family:'Barlow',sans-serif;font-weight:700;border:1px solid rgba(0,0,0,.2);padding:1px 6px;font-size:12px}
+.passer{all:unset;cursor:pointer;font-family:'Playfair Display',serif;font-style:italic;font-size:19px;color:var(--gris-texte);border-bottom:1px solid transparent}
+.passer:hover{border-color:currentColor}
+.message-erreur{color:var(--erreur);font-size:15px;margin:14px 0 0;min-height:1em}
+.mention{font-size:13px;line-height:1.5;color:var(--gris-texte);max-width:760px;margin:26px 0 0}
+.mention a{color:inherit}
+
+.retour{all:unset;cursor:pointer;font-family:'Playfair Display',serif;font-style:italic;font-size:18px;color:var(--gris-texte);margin-top:46px;display:inline-block;visibility:hidden}
+.retour.visible{visibility:visible}
+.retour:hover{color:#000}
+
+.pot{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+/* Merci */
+.merci h3{font-family:'Anton',sans-serif;font-weight:400;font-size:44px;margin:0 0 16px}
+.merci p{font-size:22px;font-weight:300;line-height:1.5;margin:0 0 28px;max-width:680px}
+.merci a.rdv{display:inline-block;background:#000;color:#fff;text-decoration:none;padding:18px 26px;font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:22px}
+.merci a.rdv:hover{background:#222}
+
+.envoi-encours{opacity:.5;pointer-events:none}
+
+@media (max-width:760px){
+  .lcf{padding-top:28px}
+  .lcf-titre h2{font-size:34px}
+  .lcf-sous p{font-size:26px}
+  .lcf-sous::after{flex-basis:20%}
+  .question h3{font-size:28px}
+  .champs{grid-template-columns:1fr}
+  .champs input,.champs textarea{font-size:20px;padding:18px 16px}
+  .reponses button{font-size:17px;padding:12px 15px}
+  .reponses.grandes button{width:100%}
+  .astuce{display:none}
+}
+</style>
+</head>
+<body>
+<main class="lcf">
+  <div class="lcf-titre"><h2>Votre projet</h2><span class="point"></span></div>
+  <div class="lcf-sous"><p>parlons-en.</p></div>
+  <div class="progression"><span id="barre"></span></div>
+  <form id="f" novalidate autocomplete="on">
+    <div class="scene" id="scene"></div>
+    <div class="pot" aria-hidden="true"><label>Ne pas remplir <input name="site_web" tabindex="-1" autocomplete="off"></label></div>
+  </form>
+  <button type="button" class="retour" id="retour">← Question précédente</button>
+</main>
+
+<script>
+// Listes reprises des propriétés HubSpot du portail (valeurs internes à gauche), lues le 12/10/2026.
+const BESOINS = [["strategie_ou_plateforme_de_marque","Stratégie ou plateforme de marque"],["identite_visuelle_logo_charte","Identité visuelle, logo, charte"],["marque_employeur","Marque employeur"],["campagne_de_publicite_ou_lancement_de_produit","Campagne de publicité ou lancement de produit"],["achat_d_espace_media_tv_radio_affichage_digital","Achat d'espace média (TV, radio, affichage, digital)"],["strategie_social_media","Stratégie social media"],["contenus_pour_les_reseaux_sociaux","Contenus pour les réseaux sociaux"],["relations_presse","Relations presse"],["influence","Influence"],["production_video_photo_print_packaging_plv","Production (vidéo, photo, print, packaging, PLV)"],["marketing_direct_e_mailing","Marketing direct, e-mailing"],["site_application_ou_parcours_digital","Site, application ou parcours digital"],["street_marketing_ou_operation_speciale","Street marketing ou opération spéciale"],["je_ne_sais_pas_encore","Je ne sais pas encore"]];
+const BUDGETS = [["moins_de_2_k","Moins de 2 k€"],["2_a_5_k","2 à 5 k€"],["5_a_10_k","5 à 10 k€"],["10_a_20_k","10 à 20 k€"],["20_a_50_k","20 à 50 k€"],["50_a_100_k","50 à 100 k€"],["100_a_300_k","100 à 300 k€"],["plus_de_300_k","Plus de 300 k€"],["non_communique","Je ne sais pas encore"]];
+const ECHEANCES = [["c_est_urgent_moins_d_un_mois","C'est urgent, moins d'un mois"],["dans_les_3_mois","Dans les 3 mois"],["dans_l_annee","Dans l'année"],["pas_encore_de_date","Pas encore de date"]];
+const SECTEURS = [["alimentation_et_grande_consommation","Alimentation et grande consommation"],["vins_bieres_et_spiritueux","Vins, bières et spiritueux"],["beaute_et_cosmetique","Beauté et cosmétique"],["mode_accessoires_et_luxe","Mode, accessoires et luxe"],["maison_decoration_et_electromenager","Maison, décoration et électroménager"],["distribution_et_e_commerce","Distribution et e-commerce"],["sante_pharmacie_et_optique","Santé, pharmacie et optique"],["sport_bien_etre_et_loisirs","Sport, bien-être et loisirs"],["banque_assurance_et_credit","Banque, assurance et crédit"],["tech_logiciels_et_telecoms","Tech, logiciels et télécoms"],["culture_medias_et_divertissement","Culture, médias et divertissement"],["tourisme_hotellerie_et_restauration","Tourisme, hôtellerie et restauration"],["automobile_transport_et_logistique","Automobile, transport et logistique"],["industrie_btp_energie_et_immobilier","Industrie, BTP, énergie et immobilier"],["services_aux_entreprises","Services aux entreprises"],["agences_marketing_et_communication","Agences, marketing et communication"],["ecoles_et_formation","Écoles et formation"],["secteur_public_et_associations","Secteur public et associations"]];
+const FONCTIONS = [["direction_generale","Direction générale"],["marketing","Marketing"],["communication_et_relations_presse","Communication et relations presse"],["digital","Digital"],["publicite","Publicité"],["commercial","Commercial"],["operations","Opérations"],["ressources_humaines","Ressources humaines"],["achats","Achats"],["autre","Autre"]];
+const TYPES = [["candidat_stage_alternance_emploi","Candidat (stage, alternance, emploi)"],["prestataire_freelance_ou_media","Prestataire, freelance ou média"],["journaliste","Journaliste"],["autre","Autre"]];
+const POLITIQUE = '<a href="https://lacremefrench.com/politique-de-confidentialite" target="_blank" rel="noopener">Politique de confidentialité</a>';
+
+// Le parcours. type « choix » : un clic passe à la suite ; « champs » : on tape puis Entrée ou OK.
+const PORTE = {id:"porte", type:"choix", grandes:true, nom:"porte", titre:"Bonjour ! Vous nous écrivez pour…",
+  options:[["projet","Un projet","Marque, campagne, média, contenus… Aurélien vous répond sous 2 jours ouvrés."],
+           ["autre","Une candidature, un partenariat ou la presse","Stage, alternance, freelance, média, journaliste."]]};
+const PROJET = [
+  {type:"choix", nom:"besoin_principal", titre:"De quoi avez-vous besoin, d'abord ?", options:BESOINS},
+  {type:"choix", nom:"budget_envisage", titre:"Quel budget envisagez-vous ?", precision:"Une fourchette suffit, et « je ne sais pas encore » aussi.", options:BUDGETS},
+  {type:"choix", nom:"echeance_projet", titre:"Pour quand ?", options:ECHEANCES},
+  {type:"champs", titre:"Racontez-nous votre projet en quelques lignes.", champs:[{nom:"message", type:"textarea", ph:"Le contexte, l'objectif, ce qui vous ferait dire « c'est réussi »…", requis:true}]},
+  {type:"choix", nom:"salutation", titre:"Enchantés. On vous dit…", options:[["Madame","Madame"],["Monsieur","Monsieur"]]},
+  {type:"champs", titre:"Et votre nom ?", champs:[{nom:"firstname", ph:"Prénom", requis:true, auto:"given-name"},{nom:"lastname", ph:"Nom", requis:true, auto:"family-name"}]},
+  {type:"champs", titre:d => `Merci ${d.firstname || ""}. Où peut-on vous répondre ?`, champs:[{nom:"email", type:"email", ph:"Adresse e-mail", requis:true, auto:"email", plein:true},{nom:"phone", type:"tel", ph:"Téléphone (facultatif)", auto:"tel", plein:true}]},
+  {type:"champs", titre:"Pour quelle marque ou quelle entreprise ?", champs:[{nom:"company", ph:"Votre marque ou votre entreprise", requis:true, auto:"organization", plein:true}]},
+  {type:"choix", nom:"secteur_demande", titre:d => `Dans quel secteur évolue ${d.company || "votre marque"} ?`, options:SECTEURS},
+  {type:"choix", nom:"famille_de_fonction", titre:"Dernière question : quelle est votre fonction ?", options:FONCTIONS, facultatif:true, fin:true},
+];
+const AUTRE = [
+  {type:"choix", nom:"type_de_demande", titre:"Vous êtes…", options:TYPES},
+  {type:"champs", titre:"Votre nom ?", champs:[{nom:"firstname", ph:"Prénom", requis:true, auto:"given-name"},{nom:"lastname", ph:"Nom", requis:true, auto:"family-name"}]},
+  {type:"champs", titre:d => `Merci ${d.firstname || ""}. Votre adresse e-mail ?`, champs:[{nom:"email", type:"email", ph:"Adresse e-mail", requis:true, auto:"email", plein:true}]},
+  {type:"champs", titre:"Votre message", precision:"Un lien vers votre portfolio, le sujet de votre article…", champs:[{nom:"message", type:"textarea", ph:"Votre message", requis:true}], fin:true},
+];
+
+const scene = document.getElementById("scene"), barre = document.getElementById("barre"), retour = document.getElementById("retour");
+const donnees = {}, debut = Date.now();
+let parcours = [PORTE], i = 0;
+
+const texte = (q, k) => typeof q[k] === "function" ? q[k](donnees) : (q[k] || "");
+
+function afficher(sens){
+  const q = parcours[i];
+  const n = i === 0 ? "" : String(i).padStart(2, "0");
+  const total = donnees.porte === "autre" ? AUTRE.length : PROJET.length;
+  barre.style.width = i === 0 ? "4%" : `${Math.round(i / (total + 1) * 100)}%`;
+  retour.classList.toggle("visible", i > 0);
+
+  let html = `<div class="question active">${n ? `<div class="num">${n}</div>` : ""}<h3>${texte(q, "titre")}</h3>`;
+  html += `<p class="precision">${texte(q, "precision")}</p>`;
+  if (q.type === "choix") {
+    html += `<div class="reponses${q.grandes ? " grandes" : ""}">` + q.options.map(([v, l, s]) =>
+      `<button type="button" data-v="${v}" class="${donnees[q.nom] === v ? "choisi" : ""}">${l}${s ? `<small>${s}</small>` : ""}</button>`).join("") + `</div>`;
+    if (q.facultatif) html += `<div class="actions"><button type="button" class="passer" data-passer>Passer cette question</button></div>`;
+  } else {
+    html += `<div class="champs">` + q.champs.map(c => c.type === "textarea"
+      ? `<textarea class="plein" name="${c.nom}" placeholder="${c.ph}" ${c.requis ? "required" : ""}>${donnees[c.nom] || ""}</textarea>`
+      : `<input class="${c.plein ? "plein" : ""}" name="${c.nom}" type="${c.type || "text"}" placeholder="${c.ph}" autocomplete="${c.auto || "off"}" value="${(donnees[c.nom] || "").replace(/"/g, "&quot;")}" ${c.requis ? "required" : ""}>`).join("") + `</div>`;
+    const ta = q.champs.some(c => c.type === "textarea");
+    html += `<div class="actions"><button type="button" class="ok" data-ok>${q.fin ? "Envoyer →" : "OK ✓"}</button>
+             <span class="astuce">${ta ? "<kbd>⌘</kbd> + <kbd>Entrée</kbd>" : "ou <kbd>Entrée</kbd>"}</span></div>`;
+  }
+  html += `<p class="message-erreur" aria-live="polite"></p>`;
+  if (q.fin) html += `<p class="mention">${donnees.porte === "autre"
+      ? `La Crème French utilise ces informations pour répondre à votre message. ${POLITIQUE}.`
+      : `La Crème French utilise ces informations pour répondre à votre demande et vous recontacter au sujet de ses services. Vous pouvez vous désinscrire à tout moment. ${POLITIQUE}.`}</p>`;
+  html += `</div>`;
+
+  const ancienne = scene.querySelector(".question");
+  const poser = () => {
+    scene.innerHTML = html;
+    const premier = scene.querySelector("input,textarea,.reponses button.choisi,.reponses button");
+    if (premier && (sens !== "init")) premier.focus({preventScroll: true});
+  };
+  if (ancienne && sens !== "init") { ancienne.classList.replace("active", "sort"); setTimeout(poser, 220); } else poser();
+}
+
+function enregistrer(q){
+  let ok = true;
+  scene.querySelectorAll("input,textarea").forEach(c => {
+    const v = c.value.trim();
+    const bon = (!c.required || v !== "") && (c.type !== "email" || v === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v));
+    c.classList.toggle("erreur", !bon); if (!bon) ok = false;
+    donnees[c.name] = v;
+  });
+  scene.querySelector(".message-erreur").textContent = ok ? "" : "Il manque une réponse, ou l'adresse n'a pas l'air complète.";
+  return ok;
+}
+
+function suivant(){
+  const q = parcours[i];
+  if (q.fin) return envoyer();
+  i += 1; afficher("avant");
+}
+
+scene.addEventListener("click", e => {
+  const q = parcours[i];
+  const b = e.target.closest(".reponses button");
+  if (b) {
+    scene.querySelectorAll(".reponses button").forEach(x => x.classList.toggle("choisi", x === b));
+    if (q.id === "porte") { donnees.porte = b.dataset.v; setTimeout(() => { parcours = [PORTE, ...(donnees.porte === "projet" ? PROJET : AUTRE)]; i = 1; afficher("avant"); }, 260); return; }
+    donnees[q.nom] = b.dataset.v;
+    setTimeout(suivant, 260); // le temps de voir la réponse choisie
+    return;
+  }
+  if (e.target.closest("[data-passer]")) { delete donnees[q.nom]; suivant(); return; }
+  if (e.target.closest("[data-ok]")) { if (enregistrer(q)) suivant(); }
+});
+scene.addEventListener("keydown", e => {
+  if (e.key !== "Enter") return;
+  const ta = e.target.tagName === "TEXTAREA";
+  if (ta && !(e.metaKey || e.ctrlKey)) return;
+  e.preventDefault();
+  if (parcours[i].type === "champs" && enregistrer(parcours[i])) suivant();
+});
+scene.addEventListener("input", e => e.target.classList.remove("erreur"));
+retour.addEventListener("click", () => {
+  if (i <= 1) { parcours = [PORTE]; i = 0; afficher("avant"); return; }
+  i -= 1; afficher("avant");
+});
+
+// Envoi vers les formulaires HubSpot du portail 3998806 (API publique de soumission, sans clé).
+const PORTAIL = "3998806";
+const FORMULAIRES = {projet: "f93f9848-9b9b-431a-bb52-8682475decc4", autre: "8b8feaf3-c19b-429d-8642-665611fdad23"};
+const MESSAGE = "leadin_message_4c2a8fe7eaf24721cc7a9f0175115bd4"; // « Message de la demande »
+const CHAMPS = {
+  projet: ["besoin_principal", "budget_envisage", "echeance_projet", "salutation", "firstname", "lastname", "email", "phone", "company", "secteur_demande", "famille_de_fonction"],
+  autre: ["type_de_demande", "firstname", "lastname", "email"],
+};
+const cookie = n => (document.cookie.match(new RegExp("(?:^|; )" + n + "=([^;]*)")) || [])[1];
+
+async function envoyer(){
+  const q = parcours[i];
+  if (q.type === "champs" && !enregistrer(q)) return;
+  const robot = document.querySelector('[name="site_web"]').value !== "" || Date.now() - debut < 4000;
+  const projet = donnees.porte === "projet";
+  const merci = () => {
+    barre.style.width = "100%";
+    retour.classList.remove("visible");
+    scene.innerHTML = `<div class="question active merci"><h3>${projet ? `Merci ${donnees.firstname}, c'est bien arrivé.` : "Merci, votre message est bien arrivé."}</h3>
+      <p>${projet ? "Aurélien vous répond sous 2 jours ouvrés. Pour gagner du temps, vous pouvez aussi réserver dès maintenant 15 minutes en visio avec lui."
+                  : "Nous le lisons avec attention et revenons vers vous si nous pouvons y donner suite."}</p>
+      ${projet ? '<a class="rdv" href="https://meetings.hubspot.com/aurelien3" target="_blank" rel="noopener">Réserver 15 minutes avec Aurélien →</a>' : ""}</div>`;
+  };
+  if (robot) { merci(); return; } // un robot voit le même remerciement, mais rien ne part
+
+  const cle = projet ? "projet" : "autre";
+  const fields = CHAMPS[cle].filter(n => donnees[n]).map(name => ({objectTypeId: "0-1", name, value: donnees[name]}));
+  fields.push({objectTypeId: "0-1", name: MESSAGE, value: donnees.message || ""});
+  if (projet) fields.push({objectTypeId: "0-1", name: "type_de_demande", value: "annonceur_avec_un_projet"});
+  const context = {pageUri: location.href, pageName: document.title};
+  if (cookie("hubspotutk")) context.hutk = cookie("hubspotutk");
+
+  const bouton = scene.querySelector("[data-ok], .reponses");
+  if (bouton) bouton.classList.add("envoi-encours");
+  try {
+    const r = await fetch(`https://api.hsforms.com/submissions/v3/integration/submit/${PORTAIL}/${FORMULAIRES[cle]}`,
+      {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({fields, context})});
+    if (!r.ok) throw new Error(await r.text());
+    merci();
+  } catch (err) {
+    if (bouton) bouton.classList.remove("envoi-encours");
+    scene.querySelector(".message-erreur").innerHTML = "L'envoi n'a pas abouti. Réessayez dans un instant, ou écrivez-nous à <a href=\"mailto:contact@lacremefrench.com\">contact@lacremefrench.com</a>.";
+  }
+}
+
+afficher("init");
+</script>
+</body>
+</html>
