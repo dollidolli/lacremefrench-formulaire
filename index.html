@@ -7,22 +7,21 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@300;400;500;700&family=Playfair+Display:ital,wght@1,400;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* Formulaire conversationnel, aux codes de lacremefrench.com/contact (module Divi et_pb_contact_form_1) :
-   champs #d7fff7, réponses en Playfair Display italique 600, titres Anton, questions en Barlow léger. Une question à la fois. */
+   champs #d7fff7, titres et questions en Anton, tout le reste en Barlow (retours d'Aurélien du 13/10). Une question à la fois. */
 :root{--menthe:#d7fff7;--menthe-vive:#6ff0c8;--gris:rgba(0,0,0,.27);--gris-texte:rgba(0,0,0,.55);--erreur:#cf2e2e}
 *{box-sizing:border-box}
 body{margin:0;background:#fff;color:#000;font-family:'Barlow',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
 .lcf{max-width:1080px;margin:0 auto;padding:48px 16px 80px}
 
-.lcf-titre{display:flex;align-items:center;gap:14px}
-.lcf-titre::before{content:"";flex:1;height:2px;background:#000}
+.lcf-titre{display:flex;align-items:center;justify-content:center;gap:14px}
+.lcf-titre::before,.lcf-titre::after{content:"";flex:1;height:2px;background:#000}
 .lcf-titre h2{font-family:'Anton',sans-serif;font-weight:400;font-size:44px;line-height:1;margin:0}
 .lcf-titre .point{width:12px;height:12px;border-radius:50%;background:var(--menthe-vive);margin-top:14px}
-.lcf-sous{display:flex;align-items:flex-end;gap:10px;margin:6px 0 34px}
-.lcf-sous p{margin:0 0 0 auto;font-weight:300;font-size:38px;line-height:1.1;white-space:nowrap}
-.lcf-sous::after{content:"";flex:0 0 40%;height:2px;background:#000;margin-bottom:10px}
+.lcf-sous{display:flex;justify-content:center;margin:6px 0 34px}
+.lcf-sous p{margin:0;font-weight:300;font-size:38px;line-height:1.1;white-space:nowrap;text-align:center}
 
 /* Progression */
 .progression{height:3px;background:#eee;margin-bottom:44px;position:relative}
@@ -38,25 +37,25 @@ body{margin:0;background:#fff;color:#000;font-family:'Barlow',Helvetica,Arial,sa
 
 .num{font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px;color:#000;display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .num::after{content:"→";font-family:'Barlow',sans-serif;color:var(--menthe-vive);font-weight:700}
-.question h3{font-weight:300;font-size:40px;line-height:1.15;margin:0 0 8px;max-width:860px}
-.question .precision{font-family:'Playfair Display',serif;font-style:italic;font-size:18px;color:var(--gris-texte);margin:0 0 26px}
+.question h3{font-family:'Anton',sans-serif;font-weight:400;font-size:38px;line-height:1.2;letter-spacing:.3px;margin:0 0 8px;max-width:860px}
+.question .precision{font-size:18px;color:var(--gris-texte);margin:0 0 26px}
 .question .precision:empty{display:none}
 .question h3+.reponses,.question h3+.champs{margin-top:26px}
 
 /* Réponses à cliquer */
 .reponses{display:flex;flex-wrap:wrap;gap:10px;max-width:980px}
-.reponses button{all:unset;cursor:pointer;background:var(--menthe);padding:14px 20px;font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:20px;color:rgba(0,0,0,.62);transition:background .15s,color .15s,transform .15s}
+.reponses button{all:unset;cursor:pointer;background:var(--menthe);padding:14px 20px;font-family:'Barlow',sans-serif;font-weight:600;font-size:20px;color:rgba(0,0,0,.62);transition:background .15s,color .15s,transform .15s}
 .reponses button:hover{color:#000;transform:translateY(-2px)}
 .reponses button:focus-visible{outline:3px solid var(--menthe-vive);outline-offset:2px}
 .reponses button.choisi{background:#000;color:#fff}
 .reponses.grandes button{font-size:24px;padding:22px 28px}
-.reponses.grandes button small{display:block;font-family:'Barlow',sans-serif;font-style:normal;font-weight:400;font-size:15px;margin-top:6px;color:var(--gris-texte)}
+.reponses.grandes button small{display:block;font-family:'Barlow',sans-serif;font-weight:400;font-size:15px;margin-top:6px;color:var(--gris-texte)}
 .reponses.grandes button.choisi small{color:rgba(255,255,255,.7)}
 
 /* Champs à taper */
 .champs{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:980px}
 .champs .plein{grid-column:1/-1}
-.champs input,.champs textarea{width:100%;border:0;border-radius:0;background:var(--menthe);padding:24px 20px;font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:24px;color:#000;-webkit-appearance:none}
+.champs input,.champs textarea{width:100%;border:0;border-radius:0;background:var(--menthe);padding:24px 20px;font-family:'Barlow',sans-serif;font-weight:500;font-size:22px;color:#000;-webkit-appearance:none}
 .champs textarea{min-height:170px;resize:vertical}
 .champs ::placeholder{color:var(--gris);opacity:1}
 .champs input:focus,.champs textarea:focus{outline:2px solid #000;outline-offset:-2px}
@@ -64,18 +63,18 @@ body{margin:0;background:#fff;color:#000;font-family:'Barlow',Helvetica,Arial,sa
 
 /* Actions */
 .actions{display:flex;align-items:center;gap:26px;margin-top:30px;flex-wrap:wrap}
-.ok{all:unset;cursor:pointer;background:#000;color:#fff;padding:14px 24px;font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:22px}
+.ok{all:unset;cursor:pointer;background:#000;color:#fff;padding:14px 24px;font-family:'Barlow',sans-serif;font-weight:600;font-size:20px}
 .ok:hover{background:#222}
 .ok:focus-visible{outline:3px solid var(--menthe-vive);outline-offset:3px}
 .astuce{font-size:14px;color:var(--gris-texte)}
 .astuce kbd{font-family:'Barlow',sans-serif;font-weight:700;border:1px solid rgba(0,0,0,.2);padding:1px 6px;font-size:12px}
-.passer{all:unset;cursor:pointer;font-family:'Playfair Display',serif;font-style:italic;font-size:19px;color:var(--gris-texte);border-bottom:1px solid transparent}
+.passer{all:unset;cursor:pointer;font-family:'Barlow',sans-serif;font-size:18px;color:var(--gris-texte);border-bottom:1px solid transparent}
 .passer:hover{border-color:currentColor}
 .message-erreur{color:var(--erreur);font-size:15px;margin:14px 0 0;min-height:1em}
 .mention{font-size:13px;line-height:1.5;color:var(--gris-texte);max-width:760px;margin:26px 0 0}
 .mention a{color:inherit}
 
-.retour{all:unset;cursor:pointer;font-family:'Playfair Display',serif;font-style:italic;font-size:18px;color:var(--gris-texte);margin-top:46px;display:inline-block;visibility:hidden}
+.retour{all:unset;cursor:pointer;font-family:'Barlow',sans-serif;font-size:17px;color:var(--gris-texte);margin-top:46px;display:inline-block;visibility:hidden}
 .retour.visible{visibility:visible}
 .retour:hover{color:#000}
 
@@ -84,7 +83,7 @@ body{margin:0;background:#fff;color:#000;font-family:'Barlow',Helvetica,Arial,sa
 /* Merci */
 .merci h3{font-family:'Anton',sans-serif;font-weight:400;font-size:44px;margin:0 0 16px}
 .merci p{font-size:22px;font-weight:300;line-height:1.5;margin:0 0 28px;max-width:680px}
-.merci a.rdv{display:inline-block;background:#000;color:#fff;text-decoration:none;padding:18px 26px;font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:22px}
+.merci a.rdv{display:inline-block;background:#000;color:#fff;text-decoration:none;padding:18px 26px;font-family:'Barlow',sans-serif;font-weight:600;font-size:20px}
 .merci a.rdv:hover{background:#222}
 
 .envoi-encours{opacity:.5;pointer-events:none}
@@ -93,7 +92,6 @@ body{margin:0;background:#fff;color:#000;font-family:'Barlow',Helvetica,Arial,sa
   .lcf{padding-top:28px}
   .lcf-titre h2{font-size:34px}
   .lcf-sous p{font-size:26px}
-  .lcf-sous::after{flex-basis:20%}
   .question h3{font-size:28px}
   .champs{grid-template-columns:1fr}
   .champs input,.champs textarea{font-size:20px;padding:18px 16px}
